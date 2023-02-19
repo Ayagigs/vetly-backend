@@ -3,24 +3,25 @@
 ## Prerequisites
 
 Softwares needed and how to install them.
-* pnpm
+
+- pnpm
 
   ```sh
   npm install -g pnpm
   ```
 
-* ESlint
+- ESlint
 
-    _ESlint is required...Since we al will be collaborating on this project_. <br>
+  _ESlint is required...Since we al will be collaborating on this project_. <br>
 
-    Search `ESlint` in your vscode extensions searchbar <br>
-    Proceed to Install
+  Search `ESlint` in your vscode extensions searchbar <br>
+  Proceed to Install
 
 ## Steps for handling your tasks and making pull requests:
 
 Tasks will be assigned to us in Github using issues. So before you start the steps below, go to our repository page on github:
 
-[Repository Link](https://github.com/Ayagigs/vetly-team-two-backend)
+[Repository Link](https://github.com/Ayagigs/vetly-backend.git)
 
 Click the issues tab or click the link:
 
@@ -28,7 +29,7 @@ Click the issues tab or click the link:
 
 Click on the issue that was assigned to you and read the instructions. By the right hand side, you will see the status of the issue under the “Projects” section. Set it from “Todo” to “In progress”.
 
-Then proceed with the steps below: 
+Then proceed with the steps below:
 
 ### Step 1 (Cloning Repo):
 
@@ -40,7 +41,6 @@ Don’t fork it! Forking will copy it in a new Repo to your Github page, but you
 git clone https://github.com/Ayagigs/vetly-team-two-backend
 ```
 
-
 ### Step 2 (Branching):
 
 Create a branch for the task you were assigned (assuming its login_page)
@@ -48,6 +48,7 @@ Create a branch for the task you were assigned (assuming its login_page)
 ```sh
 git checkout -b login_page
 ```
+
 You should be able to verify this with the command:
 
 ```sh
@@ -69,7 +70,7 @@ git commit -m "Added function to allow Users to say 'Hello World'"
 Push to your branches
 
 ```sh
-git push 
+git push
 ```
 
 Now go to the Github Repo page. You should see the branch you pushed up in a yellow bar at the top of the page with a button to “Compare & pull request”.
@@ -85,7 +86,8 @@ As soon as you’re done, got to the repository page, then, click the issues tab
 Click on the issue that you just solved and add your comments. By the right hand side, you will see the status of the issue under the “Projects” section. Set it from “In progress” to “Awaiting Review”.
 
 **Notes:**
->Repeat above steps from 2 to 4 for any new task. 
+
+> Repeat above steps from 2 to 4 for any new task.
 
 > For update on a specific task, repeat from step 3 to 4
 
