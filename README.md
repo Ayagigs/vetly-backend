@@ -21,11 +21,11 @@ Softwares needed and how to install them.
 
 Tasks will be assigned to us in Github using issues. So before you start the steps below, go to our repository page on github:
 
-[Repository Link](https://github.com/Ayagigs/vetly-backend.git)
+[Repository Link](https://github.com/Ayagigs/vetly-backend)
 
 Click the issues tab or click the link:
 
-[Repository Issues](https://github.com/Ayagigs/vetly-team-two-backend/issues)
+[Repository Issues](https://github.com/Ayagigs/vetly-backend/issues)
 
 Click on the issue that was assigned to you and read the instructions. By the right hand side, you will see the status of the issue under the “Projects” section. Set it from “Todo” to “In progress”.
 
@@ -38,7 +38,7 @@ If you’re a collaborator, go to the Github Repo page, Git Clone the project, a
 Don’t fork it! Forking will copy it in a new Repo to your Github page, but you don’t want that — you want to collaborate on the same Github Repo with your teammates.
 
 ```sh
-git clone https://github.com/Ayagigs/vetly-team-two-backend
+git clone https://github.com/Ayagigs/vetly-backend.git
 ```
 
 ### Step 2 (Branching):
@@ -81,7 +81,7 @@ Click “Compare & pull request”. This will take you to the “Open a pull req
 
 As soon as you’re done, got to the repository page, then, click the issues tab or click the link:
 
-[Repository Issues](https://github.com/Ayagigs/vetly-team-two-backend/issues)
+[Repository Issues](https://github.com/Ayagigs/vetly-backend/issues)
 
 Click on the issue that you just solved and add your comments. By the right hand side, you will see the status of the issue under the “Projects” section. Set it from “In progress” to “Awaiting Review”.
 
