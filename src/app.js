@@ -1,8 +1,10 @@
 import express, { json } from "express";
-import { PORT } from "./config";
+import { DB_URL, PORT } from "./config";
 import cors from "cors";
 import morganMiddleware from "./middlewares/morgan.middleware";
 import errorMiddleware from "./middlewares/error.middleware";
+import mongoose from "mongoose";
+import { logger } from "./utils/logger";
 
 export default class App {
 
@@ -10,13 +12,24 @@ export default class App {
         this.app = express();
         this.port = PORT || 8080;
         this.initMiddlewares();
+        this.connectDb();
         this.initErrorHandling();
     }
     
     listen () {
         this.app.listen(PORT, () => {
-            console.log("Server is running");
+            logger.info(`Server is running @ http://localhost:${this.port}`);
         });
+    }
+
+    connectDb () {
+        try {
+            mongoose.set("strictQuery", false);
+            mongoose.connect(DB_URL);
+            logger.info("Database connected");
+        } catch (error) {
+            logger.error(error);
+        }
     }
 
     initMiddlewares () {

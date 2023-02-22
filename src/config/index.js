@@ -3,7 +3,10 @@ import { config } from "dotenv";
 config();
 
 export const {
+
     PORT,
     LOG_DIR,
-    NODE_ENV
+    NODE_ENV,
+    DB_URL
+
 } = process.env;
