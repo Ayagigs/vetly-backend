@@ -1,5 +1,6 @@
 import { StatusCodes } from "http-status-codes";
-import HttpException from "../utils/exception";
+import User from "../models/user.model";
+// import HttpException from "../utils/exception";
 
 export default class AuthController {
 
@@ -8,13 +9,9 @@ export default class AuthController {
     }
 
     // TESTING ERROR HANDLING
-    login = (_req, _res) => {
-
-        throw new HttpException(
-            StatusCodes.UNAUTHORIZED,
-            "You can't post here mahn"
-        );
-
+    login = async (_req, res) => {
+        const users = await User.find({});
+        res.status(StatusCodes.OK).send(users);
     };
 
 }
