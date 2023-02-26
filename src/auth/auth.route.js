@@ -7,8 +7,7 @@ export default class AuthRouter {
     constructor () {
         this.path = "/auth";
         this.router = Router();
-        this.applicantGoogleStrategy = new GoogleAuthStrategy("applicant");
-        this.businessGoogleStrategy = new GoogleAuthStrategy("business");
+        this.googleStrategy = new GoogleAuthStrategy();
         this.authController = new AuthController();
         this.initRoutes();
     }
@@ -21,18 +20,13 @@ export default class AuthRouter {
         );
 
         this.router.get(
-            `${this.path}/google/applicant`,
-            this.applicantGoogleStrategy.authenticate
-        );
-
-        this.router.get(
-            `${this.path}/google/business`,
-            this.businessGoogleStrategy.authenticate
+            `${this.path}/google`,
+            this.googleStrategy.authenticate
         );
 
         this.router.get(
             `${this.path}/google/callback`,
-            this.businessGoogleStrategy.callback
+            this.googleStrategy.callback
         );
 
     }

@@ -6,12 +6,11 @@ import AuthService from "../auth.service";
 
 export default class GoogleAuthStrategy {
 
-    constructor(type) {
+    constructor() {
         this.clientID = GOOGLE_CLIENT_ID;
         this.clientSecret = GOOGLE_CLIENT_SECRET;
         this.callbackUrl = GOOGLE_CALLBACK_URL;
         this.strategy = null;
-        this.type = type;
         this.authService = new AuthService();
         this.init();
     }
@@ -20,9 +19,10 @@ export default class GoogleAuthStrategy {
         this.strategy = new GoogleStrategy({
             clientID: this.clientID,
             clientSecret: this.clientSecret,
-            callbackURL: this.callbackUrl
+            callbackURL: this.callbackUrl,
+            passReqToCallback: true
         }, 
-        async (_accessToken, _refreshToken, profile, done ) => {
+        async (req, _accessToken, _refreshToken, profile, done ) => {
             try {
                 const googleuser = {
                     fullname: profile.displayName,
@@ -30,7 +30,7 @@ export default class GoogleAuthStrategy {
                         id: profile.id,
                         email: profile.emails[0].value,
                     },
-                    userType: this.type
+                    userType: req.query.state
                 };
 
                 let user = await User.findOne({$or: [{"google.email": googleuser.google.email}, {"github.email": googleuser.google.email}, {"linkedin.email": googleuser.google.email}]});
@@ -52,7 +52,14 @@ export default class GoogleAuthStrategy {
     }
 
     authenticate = (req, res, next) => {
-        passport.authenticate("google", { scope: ["profile", "email"], session: false })(req, res, next);
+        passport.authenticate(
+            "google", 
+            { 
+                scope: ["profile", "email"], 
+                session: false,
+                state: req.query.user_type
+            }
+        )(req, res, next);
     };
 
     callback = (req, res) => {
