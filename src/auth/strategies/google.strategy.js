@@ -7,9 +7,6 @@ import AuthService from "../auth.service";
 export default class GoogleAuthStrategy {
 
     constructor() {
-        this.clientID = GOOGLE_CLIENT_ID;
-        this.clientSecret = GOOGLE_CLIENT_SECRET;
-        this.callbackUrl = GOOGLE_CALLBACK_URL;
         this.strategy = null;
         this.authService = new AuthService();
         this.init();
@@ -17,9 +14,9 @@ export default class GoogleAuthStrategy {
 
     init () {
         this.strategy = new GoogleStrategy({
-            clientID: this.clientID,
-            clientSecret: this.clientSecret,
-            callbackURL: this.callbackUrl,
+            clientID: GOOGLE_CLIENT_ID,
+            clientSecret: GOOGLE_CLIENT_SECRET,
+            callbackURL: GOOGLE_CALLBACK_URL,
             passReqToCallback: true
         }, 
         async (req, _accessToken, _refreshToken, profile, done ) => {
@@ -33,7 +30,7 @@ export default class GoogleAuthStrategy {
                     userType: req.query.state
                 };
 
-                let user = await User.findOne({$or: [{"google.email": googleuser.google.email}, {"github.email": googleuser.google.email}, {"linkedin.email": googleuser.google.email}]});
+                let user = await User.findOne({$or: [{"local.email": googleuser.google.email},{"google.email": googleuser.google.email}, {"github.email": googleuser.google.email}, {"linkedin.email": googleuser.google.email}]});
 
                 if (!user){
                     user = await User.create(googleuser);
