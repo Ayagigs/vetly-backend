@@ -1,61 +1,61 @@
-import { FRONTEND_URL, GOOGLE_CALLBACK_URL, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } from "../../config";
-import { Strategy as GoogleStrategy } from "passport-google-oauth20";
+import { FRONTEND_URL, GITHUB_CALLBACK_URL, GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET } from "../../config";
+import { Strategy as GithubStrategy } from "passport-github2";
 import passport from "passport";
 import User from "../../models/user.model";
 import AuthService from "../auth.service";
 
-export default class GoogleAuthStrategy {
+export default class GithubAuthStrategy {
 
     constructor() {
-        this.clientID = GOOGLE_CLIENT_ID;
-        this.clientSecret = GOOGLE_CLIENT_SECRET;
-        this.callbackUrl = GOOGLE_CALLBACK_URL;
+        this.clientID = GITHUB_CLIENT_ID;
+        this.clientSecret = GITHUB_CLIENT_SECRET;
+        this.callbackUrl = GITHUB_CALLBACK_URL;
         this.strategy = null;
         this.authService = new AuthService();
         this.init();
     }
 
     init () {
-        this.strategy = new GoogleStrategy({
+        this.strategy = new GithubStrategy({
             clientID: this.clientID,
             clientSecret: this.clientSecret,
             callbackURL: this.callbackUrl,
-            passReqToCallback: true
+            passReqToCallback: true,
+            scope: [ "user:email" ]
         }, 
         async (req, _accessToken, _refreshToken, profile, done ) => {
             try {
-                const googleuser = {
+                const githubuser = {
                     fullname: profile.displayName,
-                    google: {
+                    github: {
                         id: profile.id,
                         email: profile.emails[0].value,
                     },
                     userType: req.query.state
                 };
 
-                let user = await User.findOne({$or: [{"google.email": googleuser.google.email}, {"github.email": googleuser.google.email}, {"linkedin.email": googleuser.google.email}]});
+                let user = await User.findOne({$or: [{"google.email": githubuser.github.email}, {"github.email": githubuser.github.email}, {"linkedin.email": githubuser.github.email}]});
 
                 if (!user){
-                    user = await User.create(googleuser);
+                    user = await User.create(githubuser);
                 } else {
-                    user = await User.findOneAndUpdate({_id: user.id}, googleuser, {new: true});
+                    user = await User.findOneAndUpdate({_id: user.id}, githubuser, {new: true});
                 }
                 
-                return done(null, user);
+                return done(null, {id: "who"});
             } catch (error) {
-                done(error);
+                return done(error);
             }
         });
 
-        passport.use("google", this.strategy);
+        passport.use("github", this.strategy);
 
     }
 
     authenticate = (req, res, next) => {
         passport.authenticate(
-            "google", 
-            { 
-                scope: ["profile", "email"], 
+            "github", 
+            {
                 session: false,
                 state: req.query.user_type
             }
@@ -63,7 +63,7 @@ export default class GoogleAuthStrategy {
     };
 
     callback = (req, res) => {
-        passport.authenticate("google", { failureRedirect: `${FRONTEND_URL}/login`, session: false })(req, res, () => {
+        passport.authenticate("github", { failureRedirect: `${FRONTEND_URL}/login`, session: false })(req, res, () => {
             const token = this.authService.signJwt(req.user.id);
             const redirectUrl = `${FRONTEND_URL}?token=${token}`;
             res.redirect(redirectUrl);
