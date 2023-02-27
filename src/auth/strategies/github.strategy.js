@@ -39,7 +39,7 @@ export default class GithubAuthStrategy {
                     user = await User.findOneAndUpdate({_id: user.id}, githubuser, {new: true});
                 }
                 
-                return done(null, {id: "who"});
+                return done(null, user);
             } catch (error) {
                 return done(error);
             }
