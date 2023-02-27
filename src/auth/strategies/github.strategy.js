@@ -7,9 +7,6 @@ import AuthService from "../auth.service";
 export default class GithubAuthStrategy {
 
     constructor() {
-        this.clientID = GITHUB_CLIENT_ID;
-        this.clientSecret = GITHUB_CLIENT_SECRET;
-        this.callbackUrl = GITHUB_CALLBACK_URL;
         this.strategy = null;
         this.authService = new AuthService();
         this.init();
@@ -17,9 +14,9 @@ export default class GithubAuthStrategy {
 
     init () {
         this.strategy = new GithubStrategy({
-            clientID: this.clientID,
-            clientSecret: this.clientSecret,
-            callbackURL: this.callbackUrl,
+            clientID: GITHUB_CLIENT_ID,
+            clientSecret: GITHUB_CLIENT_SECRET,
+            callbackURL: GITHUB_CALLBACK_URL,
             passReqToCallback: true,
             scope: [ "user:email" ]
         }, 
@@ -34,7 +31,7 @@ export default class GithubAuthStrategy {
                     userType: req.query.state
                 };
 
-                let user = await User.findOne({$or: [{"google.email": githubuser.github.email}, {"github.email": githubuser.github.email}, {"linkedin.email": githubuser.github.email}]});
+                let user = await User.findOne({$or: [{"local.email": githubuser.github.email} ,{"google.email": githubuser.github.email}, {"github.email": githubuser.github.email}, {"linkedin.email": githubuser.github.email}]});
 
                 if (!user){
                     user = await User.create(githubuser);
@@ -42,7 +39,7 @@ export default class GithubAuthStrategy {
                     user = await User.findOneAndUpdate({_id: user.id}, githubuser, {new: true});
                 }
                 
-                return done(null, {id: "who"});
+                return done(null, user);
             } catch (error) {
                 return done(error);
             }

@@ -4,8 +4,8 @@ import { fileURLToPath } from "url";
 import winston from "winston";
 import { LOG_DIR } from "../config";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+export const __filename = fileURLToPath(import.meta.url);
+export const __dirname = path.dirname(__filename);
 
 const dir = join(__dirname, LOG_DIR || "../../log");
 

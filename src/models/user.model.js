@@ -7,9 +7,11 @@ const userSchema = new Schema({
         email: String,
         email_verified:{
             type: Boolean,
-            default: false
         },
-        password: String,
+        password: {
+            type: String,
+            select: false,
+        },
     },
     google: {
         id: String,
@@ -36,14 +38,27 @@ const userSchema = new Schema({
     }
 });
 
-userSchema.pre("save", async function  (next) {
-    if (!this.isModified("local.password")) next();
-    const salt = await bcrypt.genSalt(10);
-    this.local.password = await bcrypt.hash(this.local.password, salt);
+userSchema.pre(/^(updateOne|save|findOneAndUpdate)/, async function  (next) {
+    const user = this;
+
+    if (user?.local?.password) {
+        if (user.isModified("local.password")) {
+            const salt = await bcrypt.genSalt(10);
+            user.local.password = await bcrypt.hash(user.local.password, salt);
+        }
+        return next();
+    }
+  
+    if (user?._update?.local?.password) {
+        const salt = await bcrypt.genSalt(10);
+        user._update.local.password = await bcrypt.hash(user._update.local.password, salt);
+    }
+    next();
 });
 
 userSchema.methods.passwordMatch = async function (password) {
-    return await bcrypt.compare(password, this.local.password);
+    const user = await User.findOne({_id: this.id}).select("local.password").exec();
+    return await bcrypt.compare(password, user.local.password);
 };
 
 userSchema.set("toJSON", {
@@ -51,6 +66,7 @@ userSchema.set("toJSON", {
         ret.id = ret._id;
         delete ret._id;
         delete ret.__v;
+        delete ret.local.password;
     }
 }); 
 
