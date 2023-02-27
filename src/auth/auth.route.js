@@ -1,5 +1,7 @@
 import { Router } from "express";
 import schemaValidator from "../middlewares/validation.middleware";
+import loginSchema from "../schemas/login.schema";
+import registerSchema from "../schemas/register.schema";
 import thirdPartyAuthSchema from "../schemas/third-party-auth.schema";
 import AuthController from "./auth.controller";
 import GithubAuthStrategy from "./strategies/github.strategy";
@@ -18,9 +20,16 @@ export default class AuthRouter {
 
     initRoutes () {
 
-        this.router.get(
-            `${this.path}/login`, 
+        this.router.post(
+            `${this.path}/login`,
+            schemaValidator( loginSchema, "body" ),
             this.authController.login
+        );
+
+        this.router.post(
+            `${this.path}/register`,
+            schemaValidator( registerSchema, "body" ),
+            this.authController.register
         );
 
         this.router.get(

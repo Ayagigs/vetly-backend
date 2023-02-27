@@ -1,17 +1,33 @@
 import { StatusCodes } from "http-status-codes";
-import User from "../models/user.model";
-// import HttpException from "../utils/exception";
+import AuthService from "./auth.service";
 
 export default class AuthController {
 
     constructor () {
-        
+        this.authService = new AuthService();
     }
 
-    // TESTING ERROR HANDLING
-    login = async (_req, res) => {
-        const users = await User.find({});
-        res.status(StatusCodes.OK).send(users);
+    register = async ( req, res, next ) => {
+        try {
+
+            const value = await this.authService.register(req.body);
+            res.status(StatusCodes.CREATED).send(value);
+
+        } catch (error) {
+            next(error);
+        }
+    };
+
+    login = async (req, res, next) => {
+        try {
+            
+            const value = await this.authService.login(req.body);
+            res.status(StatusCodes.OK).send(value);
+
+        } catch (error) {
+            next(error);
+        }
+
     };
 
 }
