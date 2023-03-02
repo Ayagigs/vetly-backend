@@ -1,4 +1,4 @@
-import { MAIL_HOST, MAIL_PASSWORD, MAIL_PORT, MAIL_USERNAME } from "../config";
+import { FRONTEND_URL, MAIL_HOST, MAIL_PASSWORD, MAIL_PORT, MAIL_USERNAME } from "../config";
 import nodemailer from "nodemailer";
 
 export default class MailService {
@@ -23,16 +23,19 @@ export default class MailService {
         });
     }
 
-    async sendVerificationMail (email) {
+    async sendVerificationMail (email, token) {
 
         const mailOption = {
             from: "support@vetly.com",
             to: email,
-            subject: "Welcome to BUNDS",
-            html: "<b>Welcome Draco</b> Click link below to verify your account <a href='https://google.com'>Verify</a>"
+            subject: "Welcome to Vetly",
+            html: `<b>Welcome ${email}</b> Click link below to verify your account <a href=${FRONTEND_URL}?token=${token}>Verify</a>`
         };
 
         const result = await this.transport.sendMail(mailOption);
+
+        console.log(result);
+
         return result;
 
     }
