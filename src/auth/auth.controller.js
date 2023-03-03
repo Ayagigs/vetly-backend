@@ -52,4 +52,28 @@ export default class AuthController {
         }
     };
 
+    forgotPassword = async (req, res, next) => {
+        try {
+
+            const value = await this.authService.forgotPassword(req.body);
+            res.status(StatusCodes.OK).send(value);
+
+        } catch (error) {
+            next(error);
+        }
+    };
+
+    changePassword = async (req, res, next) => {
+
+        try {
+
+            const value = await this.authService.changePassword(req.body);
+            res.status(StatusCodes.OK).send(value);
+
+        } catch (error) {
+            next(error);
+        }
+
+    };
+
 }

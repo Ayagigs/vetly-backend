@@ -1,5 +1,6 @@
 import { Router } from "express";
 import schemaValidator from "../middlewares/validation.middleware";
+import changePasswordSchema from "../schemas/change-password.schema";
 import loginSchema from "../schemas/login.schema";
 import registerSchema from "../schemas/register.schema";
 import thirdPartyAuthSchema from "../schemas/third-party-auth.schema";
@@ -65,6 +66,18 @@ export default class AuthRouter {
         this.router.get(
             `${this.path}/github/callback`,
             this.githubStrategy.callback
+        );
+
+        this.router.post(
+            `${this.path}/forgot-password`,
+            schemaValidator( emailSchema, "body" ),
+            this.authController.forgotPassword
+        );
+
+        this.router.post(
+            `${this.path}/change-password`,
+            schemaValidator( changePasswordSchema, "body" ),
+            this.authController.changePassword
         );
 
     }

@@ -34,9 +34,20 @@ export default class MailService {
 
         const result = await this.transport.sendMail(mailOption);
 
-        console.log(result);
-
         return result;
+
+    }
+
+    async sendPasswordResetMail (email, token) {
+
+        const mailOption = {
+            from: "support@vetly.com",
+            to: email,
+            subject: "Reset Password",
+            html: `<b>Click link below to reset your password <a href=${FRONTEND_URL}?token=${token}>Verify</a>`
+        }; 
+
+        return await this.transport.sendMail(mailOption);
 
     }
 
