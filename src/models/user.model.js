@@ -50,10 +50,12 @@ userSchema.pre(/^(updateOne|save|findOneAndUpdate)/, async function  (next) {
     }
   
     if (user?._update?.local?.password) {
+
         const salt = await bcrypt.genSalt(10);
         user._update.local.password = await bcrypt.hash(user._update.local.password, salt);
+
+        console.log(user);
     }
-    next();
 });
 
 userSchema.methods.passwordMatch = async function (password) {

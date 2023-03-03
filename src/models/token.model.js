@@ -5,7 +5,7 @@ import moment from "moment";
 const tokenSchema = new Schema({
     key: {
         type: String,
-        default: crypto.randomBytes(16).toString("hex"),
+        default: () => crypto.randomBytes(16).toString("hex"),
         required: true
     },
     creator_id: {

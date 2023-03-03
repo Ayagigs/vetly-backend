@@ -29,7 +29,7 @@ export default class TokenService {
             );
         }
 
-        if (moment(foundToken.expires).isSameOrAfter(Date.now())) {
+        if (!moment(foundToken.expires).isSameOrAfter(Date.now())) {
             throw new HttpException(
                 StatusCodes.UNAUTHORIZED,
                 "Invalid Token"

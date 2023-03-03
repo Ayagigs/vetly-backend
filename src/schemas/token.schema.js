@@ -7,7 +7,7 @@ const tokenSchema = z.object({
 });
 
 const emailSchema = z.object({
-    emIL: z.string({
+    email: z.string({
         required_error: "Email is required"
     }).email()
 });
