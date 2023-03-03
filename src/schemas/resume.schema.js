@@ -21,8 +21,8 @@ const resumeSchema = z.object({
       z.object({
         occupation:z.string(),
         company: z.string(),
-        company_email_address: z.string().email(),
-        company_phone_number: z.string().min(10).max(20),
+        email_address: z.string().email(),
+        phone_number: z.string().min(10).max(20),
         city: z.string(),
         country: z.string(), 
         from:z.string().date(),
