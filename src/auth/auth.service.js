@@ -111,13 +111,7 @@ export default class AuthService {
 
         const token = await this.tokenService.validateToken(body.token);
 
-        const localUser = {
-            local: {
-                email_verified: true
-            }
-        };
-
-        await User.findOneAndUpdate({ _id: token.creator_id }, localUser);
+        await User.findOneAndUpdate({ _id: token.creator_id }, {"local.email_verified": true});
 
         return "Email Verified";
 
