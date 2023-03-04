@@ -6,7 +6,6 @@ class UserService {
     constructor() {
         this.authService = new AuthService();
     }
-
     async register(req) {
         try {
             const newUser = await this.authService.register(req.body);
