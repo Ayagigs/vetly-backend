@@ -1,11 +1,24 @@
 import User from "../models/user.model";
-import HttpException from "../utils/exception";
 import Resume from "../models/resumemodel";
+import AuthService from "./auth.service";
+
 
 export default class resumeService {
-    async createResume (body){
-        const user = await User.findById(User._id);
-        const {title, description} = req.body;
-
+    constructor () {
+        this.authService = new AuthService();
     }
-}
+    async resumeService (body){
+        const user = await User.findById(this.authService.user.id);
+        const resume = {
+            personal_information: body.personal_information,
+            work_experience: body.work_experience,
+            education_training: body.education_training,
+            personal_skill: body.personal_skill,
+            user_id: this.authService.user.id
+        };
+
+    const createResume = Resume.create(resume);
+
+    return createResume;
+    }
+};

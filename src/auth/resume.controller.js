@@ -4,7 +4,7 @@ import resumeService from "./resume.service";
 
 
 
-export default class resumeController {
+export default class ResumeController {
 
     constructor () {
         this.resumeService = new resumeService();
