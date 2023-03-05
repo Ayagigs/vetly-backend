@@ -4,7 +4,6 @@ import loginSchema from "../schemas/login.schema";
 import registerSchema from "../schemas/register.schema";
 import thirdPartyAuthSchema from "../schemas/third-party-auth.schema";
 import AuthController from "./auth.controller";
-import ResumeController from "./resume.controller";
 import GithubAuthStrategy from "./strategies/github.strategy";
 import GoogleAuthStrategy from "./strategies/google.strategy";
 
@@ -17,7 +16,6 @@ export default class AuthRouter {
         this.googleStrategy = new GoogleAuthStrategy();
         this.githubStrategy = new GithubAuthStrategy();
         this.authController = new AuthController();
-        this.resumeController = new ResumeController();
         this.initRoutes();
     }
 

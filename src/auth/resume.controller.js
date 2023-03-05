@@ -1,12 +1,12 @@
 import { StatusCodes } from "http-status-codes";
-import resumeService from "./resume.service";
+import ResumeService from "./resume.service";
 
 
 
 export default class ResumeController {
 
     constructor () {
-        this.resumeService = new resumeService();
+        this.resumeService = new ResumeService();
     }
 
     createResume = async ( req, res, next ) => {

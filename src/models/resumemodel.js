@@ -2,34 +2,30 @@ import { model, Schema } from "mongoose";
 
 const resumeSchema = new Schema ({
 
-    user_id: {
-        type: Schema.Types.ObjectId,
-        ref: "User",
-      },
     personal_information: [
-       {
+        {
             firstname: String,
             lastname: String,
             DOB: String,
             email_address: String,
             phone_number: Number,
             address: String,Number,
-            city: String,Number,
+            city: String,
             country: String, 
         },
     ],
 
     work_experience:[
         {
-          occupation:String,
-          company: String,
-          email_address: String,
-          phone_number: Number,
-          city: String,
-          country: String, 
-          from: Date,
-          to: Date,
-          main_activities: String,
+            occupation:String,
+            company: String,
+            email_address: String,
+            phone_number: Number,
+            city: String,
+            country: String, 
+            from: Date,
+            to: Date,
+            main_activities: String,
         },  
     ],
 
@@ -52,6 +48,10 @@ const resumeSchema = new Schema ({
             personal_skills: String,
         },
     ],
+    user_id: {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+    },
     userType: {
         type: String,
         enum : ["applicant","business", "admin"],
