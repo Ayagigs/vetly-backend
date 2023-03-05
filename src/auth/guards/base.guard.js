@@ -3,7 +3,7 @@ import { ExtractJwt, Strategy as JwtStrategy } from "passport-jwt";
 import { JWT_SECRET_KEY } from "../../config";
 import User from "../../models/user.model";
 
-export default class AdminGuard {
+export default class BaseGuard {
 
     constructor () {
         this.strategy = null;
