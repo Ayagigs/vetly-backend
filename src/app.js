@@ -19,7 +19,7 @@ export default class App {
     }
     
     listen () {
-        this.app.listen(PORT, () => {
+        this.app.listen(this.port, () => {
             logger.info(`Server is running @ http://localhost:${this.port}`);
         });
     }
