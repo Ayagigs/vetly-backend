@@ -1,5 +1,4 @@
 import { StatusCodes } from "http-status-codes";
-import AuthService from "./auth.service";
 import resumeService from "./resume.service";
 
 

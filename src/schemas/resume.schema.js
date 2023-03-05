@@ -8,7 +8,7 @@ const resumeSchema = z.object({
         z.object({
             firstname: z.string(),
             lastname:z.string(),
-            DOB:z.string().date(),
+            DOB:z.string(),
             email_address: z.string().email(),
             phone_number: z.string().min(10).max(20),
             address: z.string(),
@@ -18,17 +18,17 @@ const resumeSchema = z.object({
     ),
 
     work_experience:z.array(
-      z.object({
-        occupation:z.string(),
-        company: z.string(),
-        email_address: z.string().email(),
-        phone_number: z.string().min(10).max(20),
-        city: z.string(),
-        country: z.string(), 
-        from:z.string().date(),
-        to:z.string().date(),
-        main_activities: z.string().max(1000),
-      })  
+        z.object({
+            occupation:z.string(),
+            company: z.string(),
+            email_address: z.string().email(),
+            phone_number: z.string().min(10).max(20),
+            city: z.string(),
+            country: z.string(), 
+            from:z.string(),
+            to:z.string(),
+            main_activities: z.string().max(1000),
+        })  
     ),
    
     education_training:z.array(
@@ -38,8 +38,8 @@ const resumeSchema = z.object({
             website:z.string(),
             city: z.string(),
             country: z.string(),
-            from:z.string().date(),
-            to:z.string().date(),
+            from:z.string(),
+            to:z.string(),
             final_grade:z.string(),
             main_activities: z.string().max(1000),
         })
@@ -50,6 +50,6 @@ const resumeSchema = z.object({
         })
     ),
  
-  });
+});
 
-  export default resumeSchema;
+export default resumeSchema;

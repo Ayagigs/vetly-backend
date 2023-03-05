@@ -57,11 +57,7 @@ export default class AuthRouter {
             this.githubStrategy.callback
         );
 
-        this.router.post(
-            `${this.path}/resume`,
-            schemaValidator( resumeSchema, "body" ),
-            this.resumeController.createResume
-        );
+       
 
     }
 

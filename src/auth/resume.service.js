@@ -8,17 +8,20 @@ export default class resumeService {
         this.authService = new AuthService();
     }
     async resumeService (body){
-        const user = await User.findById(this.authService.user.id);
-        const resume = {
-            personal_information: body.personal_information,
-            work_experience: body.work_experience,
-            education_training: body.education_training,
-            personal_skill: body.personal_skill,
-            user_id: this.authService.user.id
-        };
+        const user = await User.findById(user.id);
 
-    const createResume = Resume.create(resume);
-
-    return createResume;
+        if (user){
+            const resume = {
+                personal_information: body.personal_information,
+                work_experience: body.work_experience,
+                education_training: body.education_training,
+                personal_skill: body.personal_skill,
+                user_id: this.authService.user.id
+            };
+    
+            const createResume = Resume.create(resume);
+        }
+        
+        return createResume;
     }
-};
+}
