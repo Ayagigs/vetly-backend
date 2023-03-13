@@ -44,7 +44,7 @@ export default class AuthService {
             user = await User.findOneAndUpdate({ _id: user.id }, localUser, { new: true });
         }
 
-        await this.sendVerificationToken({ email: user.local.email });
+        await this.sendVerificationToken({ email: user.local.email }, true);
 
         return user;
 
@@ -88,7 +88,7 @@ export default class AuthService {
 
     }
 
-    async sendVerificationToken (body) {
+    async sendVerificationToken (body, newUser = false) {
 
         const user = await User.findOne({ "local.email": body.email });
 
@@ -101,7 +101,7 @@ export default class AuthService {
 
         const token = await this.tokenService.createToken(user.id);
         
-        await this.mailService.sendVerificationMail(user.local.email, token.key);
+        await this.mailService.sendVerificationMail(user.local.email, token.key, newUser);
 
         return `Token Sent to ${body.email}`;
 
