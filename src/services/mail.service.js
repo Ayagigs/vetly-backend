@@ -4,7 +4,6 @@ import nodemailer from "nodemailer";
 export default class MailService {
 
     constructor() {
-        this.supportEmail = "support@ikecruz.dev";
         this.transport = null;
         this.init();
     }
@@ -13,13 +12,9 @@ export default class MailService {
         this.transport = nodemailer.createTransport({
             host: MAIL_HOST,
             port: MAIL_PORT,
-            secure: false,
             auth: {
                 user: MAIL_USERNAME,
                 pass: MAIL_PASSWORD
-            },
-            tls: {
-                rejectUnauthorized: false,
             },
         });
     }
@@ -39,7 +34,8 @@ export default class MailService {
         `;
 
         const mailOption = {
-            from: `"Vetly" ${this.supportEmail}`,
+            // eslint-disable-next-line quotes
+            from: '"Vetly" support@ikecruz.dev',
             to: email,
             subject: newUser ? "Welcome to Vetly" : "Email verification token",
             html: newUser ? newUserHtml : oldUserHtml
@@ -54,7 +50,8 @@ export default class MailService {
     async sendPasswordResetMail(email, token) {
 
         const mailOption = {
-            from: `"Vetly" ${this.supportEmail}`,
+            // eslint-disable-next-line quotes
+            from: '"Vetly" support@ikecruz.dev',
             to: email,
             subject: "Reset Password",
             html: `
