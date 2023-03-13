@@ -1,21 +1,16 @@
 import { z } from "zod";
 
 const resumeSchema = z.object({
-    user_type: z.enum(["applicant","business", "admin"], {
-        required_error: "Add user type to query body"
-    }),
-    personal_information: z.array(
-        z.object({
-            firstname: z.string(),
-            lastname:z.string(),
-            DOB:z.string(),
-            email_address: z.string().email(),
-            phone_number: z.string().min(10).max(20),
-            address: z.string(),
-            city: z.string(),
-            country: z.string(), 
-        })
-    ),
+    personal_information: z.object({
+        firstname: z.string(),
+        lastname:z.string(),
+        dob:z.union([z.date(), z.string()]),
+        email_address: z.string().email(),
+        phone_number: z.string().min(10).max(20),
+        address: z.string(),
+        city: z.string(),
+        country: z.string(), 
+    }).optional(),
 
     work_experience:z.array(
         z.object({
@@ -25,31 +20,32 @@ const resumeSchema = z.object({
             phone_number: z.string().min(10).max(20),
             city: z.string(),
             country: z.string(), 
-            from:z.string(),
-            to:z.string(),
+            from:z.date(),
+            to:z.date(),
             main_activities: z.string().max(1000),
-        })  
-    ),
+        })
+    ).optional(),
    
     education_training:z.array(
         z.object({
-            education_training_experience:z.string(),
-            organization_providing_education_training: z.string(),
+            experience:z.string(),
+            organization: z.string(),
             website:z.string(),
             city: z.string(),
             country: z.string(),
-            from:z.string(),
-            to:z.string(),
+            from:z.date(),
+            to:z.date(),
             final_grade:z.string(),
             main_activities: z.string().max(1000),
         })
-    ),
+    ).optional(),
+
     personal_skill:z.array(
-        z.object({
-            personal_skills: z.string().max(1000),
-        })
-    ),
- 
+        z.string()
+    ).optional(),
+
+    saved: z.boolean().optional()
+
 });
 
 export default resumeSchema;
