@@ -21,6 +21,7 @@ specifiers:
   passport-google-oauth20: ^2.0.0
   passport-jwt: ^4.0.1
   uuid: ^9.0.0
+  validator: ^13.9.0
   winston: ^3.8.2
   zod: ^3.20.6
 
@@ -43,6 +44,7 @@ dependencies:
   passport-google-oauth20: 2.0.0
   passport-jwt: 4.0.1
   uuid: 9.0.0
+  validator: 13.9.0
   winston: 3.8.2
   zod: 3.20.6
 
@@ -2883,6 +2885,11 @@ packages:
   /uuid/9.0.0:
     resolution: {integrity: sha512-MXcSTerfPa4uqyzStbRoTgt5XIe3x5+42+q1sDuy3R5MDk66URdLMOZe5aPX/SQd+kuYAh0FdP/pO28IkQyTeg==}
     hasBin: true
+    dev: false
+
+  /validator/13.9.0:
+    resolution: {integrity: sha512-B+dGG8U3fdtM0/aNK4/X8CXq/EcxU2WPrPEkJGslb47qyHsxmbggTWK0yEA4qnYVNF+nxNlN88o14hIcPmSIEA==}
+    engines: {node: '>= 0.10'}
     dev: false
 
   /vary/1.1.2:
