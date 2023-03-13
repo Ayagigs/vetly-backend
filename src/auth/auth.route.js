@@ -9,6 +9,7 @@ import AuthController from "./auth.controller";
 import GithubAuthStrategy from "./strategies/github.strategy";
 import GoogleAuthStrategy from "./strategies/google.strategy";
 
+
 export default class AuthRouter {
 
     constructor () {
