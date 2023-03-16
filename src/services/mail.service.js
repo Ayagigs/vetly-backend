@@ -64,4 +64,20 @@ export default class MailService {
 
     }
 
+    async sendVettingEmail(email) {
+
+        const mailOption = {
+            // eslint-disable-next-line quotes
+            from: '"Vetly" support@ikecruz.dev',
+            to: email,
+            subject: "Vet Employee",
+            html: `
+                <b>Click link below to vet employee </b> <br />
+                <a href=${FRONTEND_URL}>Vet</a>
+            `
+        };
+
+        return await this.transport.sendMail(mailOption);
+    }
+
 }
