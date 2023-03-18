@@ -5,13 +5,13 @@ import ResumeService from "../services/resume.service";
 
 export default class ResumeController {
 
-    constructor () {
+    constructor() {
         this.resumeService = new ResumeService();
     }
 
     create = async (req, res, next) => {
         try {
-            
+
             const value = await this.resumeService.initResume(req.user);
             res.status(StatusCodes.CREATED).send(value);
 
@@ -20,10 +20,10 @@ export default class ResumeController {
         }
     };
 
-    updateResume = async ( req, res, next ) => {
+    updateResume = async (req, res, next) => {
         try {
 
-            const value = await this.resumeService.updateResume(req.body);
+            const value = await this.resumeService.updateResume(req.params.id, req.body);
             res.status(StatusCodes.CREATED).send(value);
 
         } catch (error) {
@@ -34,7 +34,7 @@ export default class ResumeController {
     findOne = async (req, res, next) => {
 
         try {
-            
+
             const value = await this.resumeService.findOne(req.params.id);
             res.status(StatusCodes.OK).send(value);
 
@@ -47,7 +47,7 @@ export default class ResumeController {
     list = async (req, res, next) => {
 
         try {
-            
+
             const value = await this.resumeService.listByUser(req.user);
             res.status(StatusCodes.OK).send(value);
 
