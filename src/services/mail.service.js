@@ -24,13 +24,13 @@ export default class MailService {
         const newUserHtml = `
             <b>Welcome to Vetly ${email}</b> <br />
             Click link below to verify your account <br />
-            <a href=${FRONTEND_URL}?token=${token}>Verify</a>
+            <a href=${FRONTEND_URL}/verify-account?token=${token}>Verify</a>
         `;
 
         const oldUserHtml = `
             <b>Dear ${email}</b> <br />
             Click link below to verify your account <br />
-            <a href=${FRONTEND_URL}?token=${token}>Verify</a>
+            <a href=${FRONTEND_URL}/verify-account?token=${token}>Verify</a>
         `;
 
         const mailOption = {
@@ -56,7 +56,7 @@ export default class MailService {
             subject: "Reset Password",
             html: `
                 <b>Click link below to reset your password </b> <br /> 
-                <a href=${FRONTEND_URL}?token=${token}>Verify</a>
+                <a href=${FRONTEND_URL}/reset-password?token=${token}>Verify</a>
             `
         };
 
