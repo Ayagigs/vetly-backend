@@ -64,7 +64,7 @@ export default class MailService {
 
     }
 
-    async sendVettingEmail(email) {
+    async sendVettingEmail(email, token) {
 
         const mailOption = {
             // eslint-disable-next-line quotes
@@ -73,7 +73,7 @@ export default class MailService {
             subject: "Vet Employee",
             html: `
                 <b>Click link below to vet employee </b> <br />
-                <a href=${FRONTEND_URL}>Vet</a>
+                <a href=${FRONTEND_URL}?token=${token}>Vet</a>
             `
         };
 

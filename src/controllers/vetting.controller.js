@@ -23,7 +23,7 @@ export default class VettingController {
     sendVettingEmail = async (req, res, next) => {
         try {
 
-            const value = await this.vettingService.sendVettingEmail(req.body);
+            const value = await this.vettingService.sendVettingEmail(req.user.id, req.body.emails);
             res.status(StatusCodes.OK).send(value);
 
         } catch (error) {

@@ -2,8 +2,8 @@ import Resume from "../models/resume.model";
 import HttpException from "../utils/exception";
 import { StatusCodes } from "http-status-codes";
 import MailService from "./mail.service";
-
-
+import Vetting from "../models/vetting.model";
+import Token from "../models/token.model";
 
 export default class VettingService {
 
@@ -48,9 +48,7 @@ export default class VettingService {
 
     }
 
-    async sendVettingEmail(body) {
-
-        const emails = body.emails;
+    async sendVettingEmail(user_id, emails) {
 
         if (!emails || emails.length === 0) {
             throw new HttpException(
@@ -58,12 +56,18 @@ export default class VettingService {
                 "No emails found"
             );
         }
+        
+        const requests = await Promise.all(emails.map(email => Vetting.create({ email, creator_id: user_id })));
 
-        await emails.map(email => this.mailService.sendVettingEmail(email));
+        const tokens = await Promise.all(requests.map(request => Token.create({ creator_id: request.id })));
+
+        await Promise.all(requests.map(request => {
+            const token = tokens.find(t => t.creator_id = request.id);
+            return this.mailService.sendVettingEmail(request.email, token.key);
+        }));
 
         return "Emails sent out to orgs";
 
     }
-
 
 }
