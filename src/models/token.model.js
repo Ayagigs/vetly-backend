@@ -20,6 +20,12 @@ const tokenSchema = new Schema({
         type: Date,
         default: () => moment().add(15, "m").toDate()
     }
+},
+{
+    timestamps: { 
+        createdAt: "created_at", 
+        updatedAt: "updated_at",
+    }
 });
 
 tokenSchema.methods.flagUsed = async function () {

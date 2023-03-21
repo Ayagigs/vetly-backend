@@ -6,10 +6,7 @@ const loginSchema = z.object({
     }).email(),
     password: z.string({
         required_error: "Password is required"
-    }).min(8, "Password length should be greater than 8"),
-    user_type: z.enum(["applicant","business", "admin"], {
-        required_error: "Add user type to query body"
-    })
+    }).min(8, "Password length should be greater than 8")
 });
 
 export default loginSchema;
