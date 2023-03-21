@@ -51,7 +51,7 @@ export default class AuthService {
     }
 
     async login(body) {
-        const user = await User.findOne({ "local.email": body.email, userType: body.user_type });
+        const user = await User.findOne({ "local.email": body.email });
 
         if (!user) {
             throw new HttpException(

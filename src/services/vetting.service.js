@@ -51,17 +51,17 @@ export default class VettingService {
     async sendVettingEmail(body) {
 
         const emails = body.emails;
+
         if (!emails || emails.length === 0) {
             throw new HttpException(
                 StatusCodes.NOT_FOUND,
                 "No emails found"
             );
         }
-        console.log(emails);
 
         await emails.map(email => this.mailService.sendVettingEmail(email));
 
-        return `Emails sent to ${emails}`;
+        return "Emails sent out to orgs";
 
     }
 
