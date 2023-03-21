@@ -18,6 +18,13 @@ export default class UserRouter {
     initRoutes () {
 
         this.router.get(
+            `${this.path}/search`,
+            this.baseGuard.guard,
+            schemaValidator( searchSchema, "query" ),
+            this.userController.search
+        );
+
+        this.router.get(
             this.path,
             this.baseGuard.guard,
             schemaValidator( roleSchema, "query" ),
@@ -29,13 +36,6 @@ export default class UserRouter {
             this.baseGuard.guard,
             schemaValidator( mongooseIdSchema, "params" ),
             this.userController.findOne
-        );
-
-        this.router.get(
-            `${this.path}/search`,
-            this.baseGuard.guard,
-            schemaValidator( searchSchema, "query" ),
-            this.userController.search
         );
 
     }
