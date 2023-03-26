@@ -13,13 +13,7 @@ export default class TokenService {
 
     }
 
-    /**
-     * If the token is not found, or if the token is expired, throw an error.
-     * @param token - The token that was sent in the request
-     * @returns The token that was found.
-     */
-    async validateToken (token) {
-
+    async findOne (token) {
         const foundToken = await Token.findOne({ key: token, used: false });
 
         if (!foundToken) {
@@ -28,6 +22,18 @@ export default class TokenService {
                 "Invalid Token"
             );
         }
+
+        return foundToken;
+    }
+
+    /**
+     * If the token is not found, or if the token is expired, throw an error.
+     * @param token - The token that was sent in the request
+     * @returns The token that was found.
+     */
+    async validateToken (token) {
+
+        const foundToken = await this.findOne(token);
 
         if (!moment(foundToken.expires).isSameOrAfter(Date.now())) {
             throw new HttpException(
