@@ -1,7 +1,11 @@
 import { model, Schema } from "mongoose";
 
 const vettingSchema = new Schema({
-    creator_id:  {
+    user_id:  {
+        type: String,
+        required: true
+    },
+    resume_id:  {
         type: String,
         required: true
     },
