@@ -1,11 +1,12 @@
 import mongoose, { model, Schema } from "mongoose";
+// import applicantSchema from "../schemas/applicant.schema";
 
 const vettingSchema = new Schema({
-    user_id:  {
+    user_id: {
         type: mongoose.Schema.ObjectId,
         required: true
     },
-    resume_id:  {
+    resume_id: {
         type: mongoose.Schema.ObjectId,
         required: true
     },
@@ -17,16 +18,22 @@ const vettingSchema = new Schema({
     },
     status: {
         type: String,
-        enum: ["pending","failed", "success"],
+        enum: ["pending", "failed", "success"],
         default: "pending"
-    }
+    },
+
 },
-{
-    timestamps: { 
-        createdAt: "created_at", 
-        updatedAt: "updated_at",
-    }
-});
+    // {
+    //     applicant: {
+    //         applicantSchema
+    //     }
+    // },
+    {
+        timestamps: {
+            createdAt: "created_at",
+            updatedAt: "updated_at",
+        }
+    });
 
 const Vetting = model("vetting", vettingSchema);
 

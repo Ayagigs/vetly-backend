@@ -39,6 +39,18 @@ export default class VettingRouter {
         );
 
         this.router.get(
+            `${this.path}/recent`,
+            this.baseGuard.guard,
+            this.vettingController.listRecentVetting
+        );
+
+        this.router.get(
+            `${this.path}/count`,
+            this.baseGuard.guard,
+            this.vettingController.getVettingCount
+        );
+
+        this.router.get(
             `${this.path}/resume/:id`,
             this.baseGuard.guard,
             this.vettingController.fetchEmailsFromResume
@@ -56,7 +68,7 @@ export default class VettingRouter {
             schemaValidator(tokenSchema, "body"),
             this.vettingController.getVettingRequest
         );
-        
+
         this.router.patch(
             `${this.path}/response`,
             schemaValidator(VettingResponseSchema, "body"),
