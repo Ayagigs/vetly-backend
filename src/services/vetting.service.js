@@ -7,6 +7,7 @@ import TokenService from "../services/token.service";
 import ResumeService from "../services/resume.service";
 import UserService from "../services/user.service";
 import moment from "moment";
+import mongoose from "mongoose";
 
 export default class VettingService {
 
@@ -18,22 +19,56 @@ export default class VettingService {
     }
 
     async findOne (id) {
-        const request = Vetting.aggregate([
+
+        const request = await Vetting.aggregate([
             {
                 $match: {
-                    _id: id
-                },
+                    _id: new mongoose.Types.ObjectId(id)
+                }
+            },
+            {
                 $lookup: {
-                    from: "user",
+                    from: "users",
                     localField: "user_id",
                     foreignField: "_id",
-                    as: "request_creator"
-                },
+                    as: "request_creator",
+                    pipeline: [
+                        {
+                            $project: {
+                                __v: 0,
+                            }
+                        }
+                    ]
+                }
+            },
+            {
                 $lookup: {
                     from: "resumes",
                     localField: "resume_id",
                     foreignField: "_id",
-                    as: "resume"
+                    as: "resume",
+                    pipeline: [
+                        {
+                            $project: {
+                                __v: 0,
+                            }
+                        }
+                    ]
+                }
+            },   
+            {
+                $project: {
+                    __v: 0,
+                }
+            },
+            {
+                $set: {
+                    request_creator: {
+                        $first: "$request_creator"
+                    },
+                    resume: {
+                        $first: "$resume"
+                    }
                 }
             }
         ]);
@@ -52,16 +87,47 @@ export default class VettingService {
         return Vetting.aggregate([
             {
                 $lookup: {
-                    from: "user",
+                    from: "users",
                     localField: "user_id",
                     foreignField: "_id",
-                    as: "request_creator"
-                },
+                    as: "request_creator",
+                    pipeline: [
+                        {
+                            $project: {
+                                __v: 0,
+                            }
+                        }
+                    ]
+                }
+            },
+            {
                 $lookup: {
                     from: "resumes",
                     localField: "resume_id",
                     foreignField: "_id",
-                    as: "resume"
+                    as: "resume",
+                    pipeline: [
+                        {
+                            $project: {
+                                __v: 0,
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                $project: {
+                    __v: 0,
+                }
+            },
+            {
+                $set: {
+                    request_creator: {
+                        $first: "$request_creator"
+                    },
+                    resume: {
+                        $first: "$resume"
+                    }
                 }
             }
         ]);
@@ -71,19 +137,52 @@ export default class VettingService {
         return Vetting.aggregate([
             {
                 $match: {
-                    user_id: user_id
-                },
+                    user_id: new mongoose.Types.ObjectId(user_id)
+                }
+            },
+            {
                 $lookup: {
-                    from: "user",
+                    from: "users",
                     localField: "user_id",
                     foreignField: "_id",
-                    as: "request_creator"
-                },
+                    as: "request_creator",
+                    pipeline: [
+                        {
+                            $project: {
+                                __v: 0,
+                            }
+                        }
+                    ]
+                }
+            },
+            {
                 $lookup: {
                     from: "resumes",
                     localField: "resume_id",
                     foreignField: "_id",
-                    as: "resume"
+                    as: "resume",
+                    pipeline: [
+                        {
+                            $project: {
+                                __v: 0,
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                $project: {
+                    __v: 0,
+                }
+            },
+            {
+                $set: {
+                    request_creator: {
+                        $first: "$request_creator"
+                    },
+                    resume: {
+                        $first: "$resume"
+                    }
                 }
             }
         ]);
@@ -149,7 +248,7 @@ export default class VettingService {
         /* This is checking if the user is an applicant or an org. If the user is an applicant, then
         the resume_id is the user_resume.id. If the user is an org, then the resume_id is the
         body.resume_id. */
-        const resume_id = user.user_type === "applicant" ? 
+        const resume_id = user.userType === "applicant" ? 
             (await this.resumeService.listByUser(user)).id : 
             (await this.resumeService.findOne(body.resume_id)).id;
         
@@ -168,24 +267,15 @@ export default class VettingService {
 
     /**
      * It takes a token, validates it, finds the vetting request, finds the resume, finds the user that created the resume,
-     * creates a new token, and returns the user, resume, and token
+     * and returns the user and resume
      * @param request_token - The token that was sent to the user's email.
      * @returns An object with the user, resume, and token.
      */
     async getVettingRequest(request_token) {
-        const validToken = await this.tokenService.validateToken(request_token);
+        const validToken = await this.tokenService.findOne(request_token);
         const vetting_request = await this.findOne(validToken.creator_id);
 
-        const resume = await this.resumeService.findOne(vetting_request.id);
-        const user = await this.userService.findById(resume.user_id);
-
-        const token = (await this.tokenService.createToken(resume.id)).key;
-
-        return {
-            user,
-            resume,
-            token
-        };
+        return vetting_request;
     }
 
     /**

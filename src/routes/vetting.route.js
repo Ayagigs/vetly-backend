@@ -23,7 +23,7 @@ export default class VettingRouter {
         this.router.get(
             `${this.path}`,
             this.baseGuard.guard,
-            this.vettingController.listByUser("applicant")
+            this.vettingController.listByUser("public")
         );
 
         this.router.get(
@@ -34,8 +34,8 @@ export default class VettingRouter {
 
         this.router.get(
             `${this.path}/find/user/:id`,
-            this.baseGuard.guard,
-            this.vettingController.listByUser("admin")
+            this.adminGuard.guard,
+            this.vettingController.listByUser("private")
         );
 
         this.router.get(
@@ -52,13 +52,13 @@ export default class VettingRouter {
         );
 
         this.router.post(
-            `${this.path}/get-vetting-details`,
+            `${this.path}/get-details`,
             schemaValidator(tokenSchema, "body"),
             this.vettingController.getVettingRequest
         );
         
         this.router.patch(
-            `${this.path}/vetting-response`,
+            `${this.path}/response`,
             schemaValidator(VettingResponseSchema, "body"),
             this.vettingController.updateVettingRequest
         );
