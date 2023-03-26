@@ -5,9 +5,9 @@ import HttpException from "../utils/exception";
 
 export default class TokenService {
 
-    async createToken (creator_id) {
+    async createToken (creator_id, expires_in = moment().add(15, "m").toDate()) {
 
-        const token = await Token.create({ creator_id: creator_id });
+        const token = await Token.create({ creator_id: creator_id, expires: expires_in });
 
         return token;
 
