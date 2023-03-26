@@ -4,8 +4,10 @@ import cors from "cors";
 import morganMiddleware from "./middlewares/morgan.middleware";
 import errorMiddleware from "./middlewares/error.middleware";
 import mongoose from "mongoose";
-import { logger } from "./utils/logger";
+import { logger, __dirname } from "./utils/logger";
 import passport from "passport";
+import { join } from "path";
+import { stat } from "fs";
 
 export default class App {
 
@@ -16,6 +18,7 @@ export default class App {
         this.initRoutes(routes);
         this.initErrorHandling();
         this.connectDb();
+        this.readFiles();
     }
     
     listen () {
@@ -52,6 +55,24 @@ export default class App {
 
     initErrorHandling () {
         this.app.use(errorMiddleware);
+    }
+
+    readFiles () {
+        this.app.use(function(req, res, next){
+            var filePath = join(__dirname, "../../" + req.path);
+            stat(filePath, function(err, fileInfo){
+                if (err) {
+                    next();
+                    return;
+                }
+                if (fileInfo.isFile()) {
+                    res.sendFile(filePath);
+                }
+                else{
+                    next();
+                }
+            });
+        });
     }
 
 }
