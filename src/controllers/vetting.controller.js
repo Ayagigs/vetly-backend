@@ -24,7 +24,7 @@ export default class VettingController {
         async (req, res, next) => {
             try {
                 
-                const user_id = role === "applicant" ? req.user.id : req.params.id;
+                const user_id = role === "public" ? req.user.id : req.params.id;
                 const value = await this.vettingService.listByUser(user_id);
                 res.status(StatusCodes.OK).send(value);
                 

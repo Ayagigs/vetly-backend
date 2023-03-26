@@ -1,4 +1,4 @@
-import { model, Schema } from "mongoose";
+import mongoose, { model, Schema } from "mongoose";
 import crypto from "crypto";
 import moment from "moment";
 
@@ -9,7 +9,7 @@ const tokenSchema = new Schema({
         required: true
     },
     creator_id: {
-        type: String,
+        type: mongoose.Schema.ObjectId,
         required: true
     },
     used: {

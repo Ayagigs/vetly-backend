@@ -1,12 +1,12 @@
-import { model, Schema } from "mongoose";
+import mongoose, { model, Schema } from "mongoose";
 
 const vettingSchema = new Schema({
     user_id:  {
-        type: String,
+        type: mongoose.Schema.ObjectId,
         required: true
     },
     resume_id:  {
-        type: String,
+        type: mongoose.Schema.ObjectId,
         required: true
     },
     email: {

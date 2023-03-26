@@ -1,9 +1,9 @@
-import { model, Schema } from "mongoose";
+import mongoose, { model, Schema } from "mongoose";
 
 const resumeSchema = new Schema({
 
     user_id: {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.ObjectId,
         ref: "users",
     },
 
