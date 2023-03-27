@@ -50,6 +50,6 @@
     "homepage": "https://github.com/Ayagigs/vetly-backend#readme",
     "engines": {
         "npm": "only-allow pnpm",
-        "node": ">= 16.16.0"
+        "node": "16.16.0"
     }
 }
