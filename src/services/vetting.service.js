@@ -305,30 +305,20 @@ export default class VettingService {
         return request;
     }
 
-    // async listRecentVetting(creator_id) {
-    //     if (!creator_id) {
-    //         throw new HttpException(
-    //             StatusCodes.BAD_REQUEST,
-    //             "Creator id is required"
-    //         );
-    //     }
-    //     return await Vetting.find({ creator_id: creator_id }).sort({ created_at: -1 }).limit(10);
-    // }
+    async getVettingCount(user_id) {
+        if (!user_id) {
+            throw new HttpException(
+                StatusCodes.BAD_REQUEST,
+                "User id is required"
+            );
+        }
 
-    // async getVettingCount(creator_id) {
-    //     if (!creator_id) {
-    //         throw new HttpException(
-    //             StatusCodes.BAD_REQUEST,
-    //             "Creator id is required"
-    //         );
-    //     }
+        const vetting = await Vetting.find({ user_id: user_id });
+        const successful = vetting.filter(v => v.status === "success").length;
+        const failed = vetting.filter(v => v.status === "failed").length;
+        const pending = vetting.filter(v => v.status === "pending").length;
 
-    //     const vetting = await Vetting.find({ creator_id: creator_id });
-    //     const successful = vetting.filter(v => v.status === "success").length;
-    //     const failed = vetting.filter(v => v.status === "failed").length;
-    //     const pending = vetting.filter(v => v.status === "pending").length;
-
-    //     return { successful, failed, pending };
-    // }
+        return { successful, failed, pending };
+    }
 
 }

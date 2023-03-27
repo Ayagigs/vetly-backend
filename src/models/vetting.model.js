@@ -1,5 +1,4 @@
 import mongoose, { model, Schema } from "mongoose";
-// import applicantSchema from "../schemas/applicant.schema";
 
 const vettingSchema = new Schema({
     user_id: {
@@ -23,11 +22,6 @@ const vettingSchema = new Schema({
     },
 
 },
-    // {
-    //     applicant: {
-    //         applicantSchema
-    //     }
-    // },
     {
         timestamps: {
             createdAt: "created_at",

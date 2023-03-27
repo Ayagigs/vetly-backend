@@ -39,12 +39,6 @@ export default class VettingRouter {
         );
 
         this.router.get(
-            `${this.path}/recent`,
-            this.baseGuard.guard,
-            this.vettingController.listRecentVetting
-        );
-
-        this.router.get(
             `${this.path}/count`,
             this.baseGuard.guard,
             this.vettingController.getVettingCount

@@ -20,17 +20,6 @@ export default class VettingController {
         }
     };
 
-    listRecentVetting = async (req, res, next) => {
-        try {
-
-            const value = await this.vettingService.listRecentVetting(req.user.id);
-            res.status(StatusCodes.OK).send(value);
-
-        } catch (error) {
-            next(error);
-        }
-    };
-
     listByUser = (role) =>
         async (req, res, next) => {
             try {
