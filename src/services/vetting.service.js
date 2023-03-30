@@ -18,7 +18,7 @@ export default class VettingService {
         this.userService = new UserService();
     }
 
-    async findOne (id) {
+    async findOne(id) {
 
         const request = await Vetting.aggregate([
             {
@@ -55,7 +55,7 @@ export default class VettingService {
                         }
                     ]
                 }
-            },   
+            },
             {
                 $project: {
                     __v: 0,
@@ -83,7 +83,7 @@ export default class VettingService {
         return request[0];
     }
 
-    async list () {
+    async list() {
         return Vetting.aggregate([
             {
                 $lookup: {
@@ -133,7 +133,7 @@ export default class VettingService {
         ]);
     }
 
-    async listByUser (user_id) {
+    async listByUser(user_id) {
         return Vetting.aggregate([
             {
                 $match: {
@@ -248,11 +248,11 @@ export default class VettingService {
         /* This is checking if the user is an applicant or an org. If the user is an applicant, then
         the resume_id is the user_resume.id. If the user is an org, then the resume_id is the
         body.resume_id. */
-        const resume_id = user.userType === "applicant" ? 
-            (await this.resumeService.listByUser(user)).id : 
+        const resume_id = user.userType === "applicant" ?
+            (await this.resumeService.listByUser(user)).id :
             (await this.resumeService.findOne(body.resume_id)).id;
-        
-        const requests = await Promise.all(body.emails.map(email => Vetting.create({ email, user_id: user.id, resume_id  })));
+
+        const requests = await Promise.all(body.emails.map(email => Vetting.create({ email, user_id: user.id, resume_id })));
 
         const tokens = await Promise.all(requests.map(request => this.tokenService.createToken(request.id, moment().add(15, "days").toDate())));
 
@@ -295,7 +295,7 @@ export default class VettingService {
         }
 
         const request = await Vetting.findOneAndUpdate(
-            {_id: validToken.creator_id},
+            { _id: validToken.creator_id },
             data,
             { new: true }
         );
@@ -303,6 +303,22 @@ export default class VettingService {
         // TODO: NOTIFY REQUESTER ON VETTING UPDATE
 
         return request;
+    }
+
+    async getVettingCount(user_id) {
+        if (!user_id) {
+            throw new HttpException(
+                StatusCodes.BAD_REQUEST,
+                "User id is required"
+            );
+        }
+
+        const vetting = await Vetting.find({ user_id: user_id });
+        const successful = vetting.filter(v => v.status === "success").length;
+        const failed = vetting.filter(v => v.status === "failed").length;
+        const pending = vetting.filter(v => v.status === "pending").length;
+
+        return { successful, failed, pending };
     }
 
 }

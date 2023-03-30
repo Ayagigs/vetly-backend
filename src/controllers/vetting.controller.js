@@ -11,7 +11,7 @@ export default class VettingController {
 
     list = async (req, res, next) => {
         try {
-            
+
             const value = await this.vettingService.list();
             res.status(StatusCodes.OK).send(value);
 
@@ -20,14 +20,27 @@ export default class VettingController {
         }
     };
 
-    listByUser = (role) => 
+    listByUser = (role) =>
         async (req, res, next) => {
             try {
-                
+
                 const user_id = role === "public" ? req.user.id : req.params.id;
                 const value = await this.vettingService.listByUser(user_id);
                 res.status(StatusCodes.OK).send(value);
-                
+
+            } catch (error) {
+                next(error);
+            }
+        };
+
+    getVettingCount = (role) => 
+        async (req, res, next) => {
+            try {
+
+                const user_id = role === "public" ? req.user.id : req.params.id;
+                const value = await this.vettingService.getVettingCount(user_id);
+                res.status(StatusCodes.OK).send(value);
+
             } catch (error) {
                 next(error);
             }
@@ -68,7 +81,7 @@ export default class VettingController {
 
     updateVettingRequest = async (req, res, next) => {
         try {
-            
+
             const value = await this.vettingService.updateVetting(req.body);
             res.status(StatusCodes.OK).send(value);
 
