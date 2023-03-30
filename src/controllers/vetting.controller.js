@@ -33,16 +33,18 @@ export default class VettingController {
             }
         };
 
-    getVettingCount = async (req, res, next) => {
-        try {
+    getVettingCount = (role) => 
+        async (req, res, next) => {
+            try {
 
-            const value = await this.vettingService.getVettingCount(req.user.id);
-            res.status(StatusCodes.OK).send(value);
+                const user_id = role === "public" ? req.user.id : req.params.id;
+                const value = await this.vettingService.getVettingCount(user_id);
+                res.status(StatusCodes.OK).send(value);
 
-        } catch (error) {
-            next(error);
-        }
-    };
+            } catch (error) {
+                next(error);
+            }
+        };
 
     fetchEmailsFromResume = async (req, res, next) => {
         try {
