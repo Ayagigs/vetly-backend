@@ -81,7 +81,7 @@ export default class MailService {
         const html = `
             <b>Good day ${email}</b>
             <p>Click link below to Vet employee </p> <br />
-            <a href=${FRONTEND_URL}?token=${token}>Vet</a>
+            <a href=${FRONTEND_URL}/organization/${token}>Vet</a>
         `;
 
         const mailOption = {
